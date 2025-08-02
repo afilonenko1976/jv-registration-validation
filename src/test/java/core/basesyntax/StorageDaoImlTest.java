@@ -44,46 +44,10 @@ public class StorageDaoImlTest {
     }
 
     @Test
-    void register_NullUserPassword_NotOk() {
-        user.setPassword(null);
-        assertThrows(UserNotRegisterException.class, () -> {
-            registrationService.register(user);
-        });
-    }
-
-    @Test
-    void register_NullUserAge_NotOk() {
-        user.setAge(null);
-        assertThrows(UserNotRegisterException.class, () -> {
-            registrationService.register(user);
-        });
-    }
-
-    @Test
     void register_EmptyUserLogin_NotOk() {
         user.setLogin("");
         user.setPassword("Test@Test");
         user.setAge(30);
-        assertThrows(UserNotRegisterException.class, () -> {
-            registrationService.register(user);
-        });
-    }
-
-    @Test
-    void register_EmptyUserPassword_NotOk() {
-        user.setLogin("Test@Test");
-        user.setPassword("");
-        user.setAge(30);
-        assertThrows(UserNotRegisterException.class, () -> {
-            registrationService.register(user);
-        });
-    }
-
-    @Test
-    void register_UserAgeIsZero_NotOk() {
-        user.setLogin("Test@Test");
-        user.setPassword("");
-        user.setAge(0);
         assertThrows(UserNotRegisterException.class, () -> {
             registrationService.register(user);
         });
@@ -100,6 +64,24 @@ public class StorageDaoImlTest {
     }
 
     @Test
+    void register_NullUserPassword_NotOk() {
+        user.setPassword(null);
+        assertThrows(UserNotRegisterException.class, () -> {
+            registrationService.register(user);
+        });
+    }
+
+    @Test
+    void register_EmptyUserPassword_NotOk() {
+        user.setLogin("Test@Test");
+        user.setPassword("");
+        user.setAge(30);
+        assertThrows(UserNotRegisterException.class, () -> {
+            registrationService.register(user);
+        });
+    }
+
+    @Test
     void register_PasswordLessSixSymbol_NotOk() {
         user.setLogin("Test@Test");
         user.setPassword("Test@");
@@ -110,10 +92,28 @@ public class StorageDaoImlTest {
     }
 
     @Test
+    void register_NullUserAge_NotOk() {
+        user.setAge(null);
+        assertThrows(UserNotRegisterException.class, () -> {
+            registrationService.register(user);
+        });
+    }
+
+    @Test
+    void register_UserAgeIsZero_NotOk() {
+        user.setLogin("Test@Test");
+        user.setPassword("Test@Test");
+        user.setAge(0);
+        assertThrows(UserNotRegisterException.class, () -> {
+            registrationService.register(user);
+        });
+    }
+
+    @Test
     void register_AgeLessEighteen_NotOk() {
         user.setLogin("Test@Test");
-        user.setPassword("Test@");
-        user.setAge(25);
+        user.setPassword("Test@Test");
+        user.setAge(17);
         assertThrows(UserNotRegisterException.class, () -> {
             registrationService.register(user);
         });
