@@ -81,12 +81,13 @@ public class StorageDaoImlTest {
     }
 
     @Test
-    void register_UserIsZero_NotOk() {
+    void register_UserAgeIsZero_NotOk() {
         user.setLogin("Test@Test");
-        user.setPassword("Test@Test");
+        user.setPassword("");
         user.setAge(0);
-        User actual = registrationService.register(user);
-        assertNull(actual);
+        assertThrows(UserNotRegisterException.class, () -> {
+            registrationService.register(user);
+        });
     }
 
     @Test
@@ -94,17 +95,29 @@ public class StorageDaoImlTest {
         user.setLogin("Test@");
         user.setPassword("Test@Test");
         user.setAge(25);
-        User actual = registrationService.register(user);
-        assertNull(actual);
+        assertThrows(UserNotRegisterException.class, () -> {
+            registrationService.register(user);
+        });
     }
 
     @Test
     void register_PasswordLessSixSymbol_NotOk() {
         user.setLogin("Test@Test");
-        user.setPassword("@Test");
+        user.setPassword("Test@");
         user.setAge(25);
-        User actual = registrationService.register(user);
-        assertNull(actual);
+        assertThrows(UserNotRegisterException.class, () -> {
+            registrationService.register(user);
+        });
+    }
+
+    @Test
+    void register_AgeLessEighteen_NotOk() {
+        user.setLogin("Test@Test");
+        user.setPassword("Test@");
+        user.setAge(25);
+        assertThrows(UserNotRegisterException.class, () -> {
+            registrationService.register(user);
+        });
     }
 
     @Test
@@ -122,8 +135,9 @@ public class StorageDaoImlTest {
         StorageDaoImpl storageDaoImpl = new StorageDaoImpl();
         storageDaoImpl.add(user2);
 
-        User actual = registrationService.register(user2);
-        assertNull(actual);
+        assertThrows(UserNotRegisterException.class, () -> {
+            registrationService.register(user);
+        });
 
     }
 
